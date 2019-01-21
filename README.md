@@ -8,4 +8,4 @@ It is fully location based app that asks a user to enter his/her target location
 And the app is voice interactive where a user can conveniently talk to his/her app, so that real actions can happen.
 This reduces so many accident that accurs when a user drives a car while using his/her phone. 
 
-The functionalities of the project are listed in the presentation.pdf file.
+The functionalities of the project are listed in the features.pdf file.
