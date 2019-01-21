@@ -1,0 +1,47 @@
+#right-panel {
+        display: none;
+	}
+html, body {
+	  height: 100%;
+      margin: 0;
+      padding: 0;
+		
+}
+#map {
+	    position: relative;
+        height: 100%;
+        width: 100%;
+        
+}
+#inGameControls{
+	position: fixed;
+    top: 50%;
+    right: 0px;
+	padding:5px;
+	width:10vmin;
+}
+.remove-button-img{
+	width: 1.5em;
+	height: 1.5em;
+	
+
+ }
+ .remove-button-img:hover {
+	width: 1.8em;
+	height: 1.8em;
+	padding: 0em 0em 0em 0em;
+}
+.target-location-remove-button {
+	width: 1em;
+	height: 1em;
+	
+	background-size: 100% 100%;
+	background-color: #000000;
+	border: none;
+	box-shadow: none;
+	margin-left: 0.4em;
+    margin-right: 0.4em;
+	margin-bottom: 0.2em;
+	margin-top: 0.2em;
+	padding: 0.0em 0.0em 0.0em 0.0em;
+}

@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="icon" href="img/favicon.png" type="image/png">
+        <title>TSP Recalculation</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+             <!-- main css -->
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/responsive.css">
+		<!--my js-->
+		<link rel="stylesheet" href="css/main.css"></link>
+		<script src="js/initMap.js"></script>
+	    <script src="js/httpHandler.js"></script>
+	    <script src="js/TSP.js"></script>
+	    <script src="js/navigation.js"></script>
+	    <script src="js/sounds.js"></script>
+	    <script src="js/menus.js"></script>
+	    <script src="js/voiceInteractive.js"></script>
+	    <script async defer
+	         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE3ApJmvci0C2rTN1A6en5vj2Uuo3R6LA&callback=init">
+        </script>
+		<!-- sweet alert -->
+		<script src="js/sweetalert2.min.js"></script>
+		<link rel="stylesheet" href="css/sweetalert2.min.css">
+		
+    </head>
+    <body>
+	     
+		
+        <!--================Header Menu Area =================-->
+        <header class="header_area">
+            <div class="main_menu">
+            	<nav class="navbar navbar-expand-lg navbar-light">
+					<div class="container box_1620">
+						<!-- Brand and toggle get grouped for better mobile display -->
+						<a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>
+						<button class="navbar-toggler" id="menu-drop_down" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+							<ul class="nav navbar-nav menu_nav ml-auto">
+								<li class="nav-item active"><a class="nav-link" id="home-btn" href="index.html">Home</a></li> 
+								<li class="nav-item"><a class="nav-link" href="#" id="new-tsp"  data-toggle="modal" data-target="#myModal" onclick="refresh()" >New TSP  </a></li>
+								<li class="nav-item"><a class="nav-link" href="#" id="load-tsp"  onclick="onLoad()" >Load TSP  </a></li>
+								<li class="nav-item"><a class="nav-link" href="#" id="interactive" data-toggle="collapse"  onclick="startVoiceInteraction()">Voice Interactive</a></li>
+								<li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#contact-us-model" onclick="closeMenus()" >Contact Us</a></li>
+							</ul>
+						</div> 
+					</div>
+            	</nav>
+            </div>
+        </header>
+        <!--================End of Header Menu Area =================-->
+        <div class="container">
+            <!--<div class="container-box rotated">
+                <button type="button" class="btn btn-info btn-lg turned-button" data-toggle="modal" data-target="#myModal">Contact Us</button>
+            </div>-->
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                Add Locations
+                            </h4>
+							<button type="button" onclick="resetVIFlag()" class="close" data-dismiss="modal">&times;</button>
+                            
+                        </div>
+                        <div class="modal-body">
+                            
+                                <p align="center">
+        							 <input id="search_text" placeholder="Search location to add" type="text" onkeyup="click_button(event)" />
+									 <button id="search" class="btn" onclick="search()">Add</button>
+								</p>
+							    <div id="target_locations">
+	                                 <b>Target Locations Added:</b>
+	                                 <table id="target_locations_table">
+	                                     <colgroup>
+				                             <col style="width:95%">
+				                             <col style="width:5%">
+		                                 </colgroup>
+		                                 <tbody>
+		                                 </tbody>	
+	                                 </table>
+	                             </div>
+								 <br><br><br>
+                                <div id="startTSP_TravelMode">
+                                     <b>Start Point For TSP:</b><br>
+                                     <select id="start" onchange="setTSPStart()">
+     
+                                     </select>
+                                     <br><br>
+									 <b>Travel Mode:</b><br>
+                                    <select id="travelmode" width="100%" >
+                                         <option value="DRIVING">DRIVING</option>
+                                         <option value="BICYCLING">BICYCLING</option>
+                                         <option value="WALKING">WALKING</option>
+                                    </select>
+	                            </div><br>
+								<button onclick="initTSP()" class="btn btn-lg btn-success btn-block" id="btnStart" data-dismiss="modal">Start TSP</button>
+								<button class="btn btn-lg btn-success btn-block" id="btnCancel" onclick="resetNewTSPFlag()" data-dismiss="modal">Cancel TSP</button>
+                                
+                           
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		<!--================Contact US  =================-->
+        <div class="container">
+            <!--<div class="container-box rotated">
+                <button type="button" class="btn btn-info btn-lg turned-button" data-toggle="modal" data-target="#myModal">Contact Us</button>
+            </div>-->
+            <!-- Modal -->
+            <div id="contact-us-model" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                Contact Us
+                            </h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            
+                        </div>
+                        <div class="modal-body">
+                            
+                                 <table >
+                                     <tr> 
+									     <td rowspan="3" align="left"><img src="images/abri.jpeg" width="100" height="100"/></td>
+                                         <td align="center" ><h3>Abrhalei Frezghi Tela</h3></td>
+                                     </tr>
+                                     <tr>
+                                         <td align="center"><h4>00358465454991</h4></td>
+                                     </tr>
+                                     <tr>
+                                         <td align="right"><h4><a href="mailto:abryeemessi@gmail.com?subject=TSP_Project">abryeemessi@gmail.com</a> OR <a href="mailto:abrht@uef.fi?subject=TSP_Project">abrht@uef.fi</a></h4></td>
+                                     </tr>
+                                 </table>
+                                 <br><br>
+                                 <table >
+                                     <tr> 
+									     <td rowspan="3" align="left"><img src="images/salseng.jpeg" width="100" height="100"/></td>
+                                         <td align="center" ><h3>Salseng Mrong</h3></td>
+                                     </tr>
+                                     <tr>
+                                         <td align="center"><h4>00358417168199</h4></td>
+                                     </tr>
+                                     <tr>
+                                         <td align="right"><h4><a href="mailto:salsengmrong@live.com?subject=TSP_Project">salsengmrong@live.com</a> OR <a href="mailto:salsenm@uef.fi?subject=TSP_Project">salsenm@uef.fi</a></h4></td>
+                                     </tr>
+                                 </table>
+                                 <br><br>
+								<button class="btn btn-lg btn-success btn-block" data-dismiss="modal">Ok</button>
+                                
+                           
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		 <!--================ End Contact Us =================-->
+		 
+		
+         <!--================ Map Area =================-->
+         <div id="map"></div>
+		 <!--================ End of Map Area =================-->
+		<div id="inGameControls" onclick="toggleMapHandler()">
+			<img src="images/toggle.png" style="width:100%"/>
+		</div>	
+		 <!-- ================ Voice Interactive Save Modal  =================
+		               this button initiate the modal-->
+		 
+		 <button id="vi_save_tsp" data-toggle="modal" data-target="#VI-save-model" style="display: none;"></button>
+        <div class="container">
+            <div id="VI-save-model" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                Save TSP Routes:
+                            </h4>
+							<button id="close_save" type="button" onclick="resetVIFlag()" class="close" data-dismiss="modal">&times;</button>
+                            
+                        </div>
+                        <div class="modal-body">
+                                  <label align="center"> </label>
+                                 Enter your TSP name here:&nbsp;&nbsp;<input id="text_save_tsp" type="text" placeholder="TSP Name"/>
+                                 <br><br>
+								<button class="btn btn-lg btn-success btn-block" onclick="Saving()">Save</button>
+                                <button class="btn btn-lg btn-success btn-block" onclick="resetVIFlag()" id="btn_cancel-save" data-dismiss="modal">Cancel</button>
+                           
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	    <!--================ End of Voice Interactive Save Modal  =================-->
+		
+		
+		 <!-- ================ Voice Interactive Load Modal  =================
+		              this button initiate the modal-->
+		 
+		 <button id="vi_load_tsp" data-toggle="modal" data-target="#VI-load-model" style="display: none;"></button>
+        <div class="container">
+            <div id="VI-load-model" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                Load TSP Routes:
+                            </h4>
+							<button type="button" id="close_load" onclick="resetVIFlag()" class="close" data-dismiss="modal">&times;</button>
+                            
+                        </div>
+                        <div class="modal-body">
+                            
+                                 Enter your TSP name here:&nbsp;&nbsp;<input id="text_load_tsp" type="text" placeholder="TSP Name"/>
+                                 <br><br>
+								<button class="btn btn-lg btn-success btn-block" onclick="Loading()">Load</button>
+                                <button class="btn btn-lg btn-success btn-block" onclick="resetVIFlag()" id="btn_cancel-load" data-dismiss="modal">Cancel</button>
+                           
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	    <!--================ End of Voice Interactive Save Modal  =================-->
+		
+		
+	     <!--================ this should be hiden all the time, used in program =================-->
+		 
+		 <div id="right-panel" display="none">
+             <div id="startTSP_TravelMode">
+                 <b>Start Point For TSP:</b>
+                 <select id="start" onchange="setTSPStart()">
+                  <!--<option value="Asmara, ER">Asmara, ER</option>-->
+                 </select>
+                <br><br>
+	         </div>
+            <b>Travel Mode:</b>
+             <select id="travelmode" >
+                 <option value="DRIVING">DRIVING</option>
+                 <option value="BICYCLING">BICYCLING</option>
+                 <option value="WALKING">WALKING</option>
+             </select>
+   
+             <br><br>
+	         <div id="description"><b>Description:</div>
+	
+	         <div id="directions-panel">
+	             <table>
+	                 <tr>
+	                     <td><div id="expected_distance_id"><img src="images/blue-line.jpg"></img></div></td> <td color="#FFA700"><div id="expected_distance"><font color="#FFA700" >0</font></div></td>
+	                 </tr>
+	                 <tr>
+     		             <td><div id="actual_distance_id"><img src="images/red-line.jpg"></img></div></td> <td><div id="actual_distance"><font color="#FFA700" >0</font></div></td>
+		             </tr>
+		             <tr>
+	                     <td><div id="expected_time_id"><img src="images/blue-line-time.jpg"></img></div></td> <td><div id="expected_time"><font color="#FFA700" >0</font></div></td>
+	                 </tr>
+	                 <tr>
+     		             <td><div id="actualTime_spent_id"><img src="images/red-line-time.jpg"></img></div></td> <td><div id="actualTime_spent"><font color="#FFA700" >0</font></div></td>
+		             </tr>
+		             <tr>
+	                     <td><div id="correct_node_id"><img src="images/correct-location.jpg"></img></div></td> <td><div id="correct_node"><font color="#FFA700" >0</font></div></td>
+	                 </tr>
+	                 <tr>
+     		             <td><div id="wrong_node_id"><img src="images/wrong-location.jpg"></img></div></td> <td><div id="wrong_node"><font color="#FFA700" >0</font></div></td>
+		             </tr>
+            	  </table>
+        	</div>
+	        <div id="target_locations">
+	        <b>Target Locations Added:</b>
+	             <table id="target_locations_table">
+	                 <colgroup>
+				         <col style="width:95%">
+				          <col style="width:5%">
+		             </colgroup>
+		             <tbody>
+		             </tbody>	
+	            </table>
+	     </div>
+	     <audio id="targetfound">
+		     <source src="sounds/targetfound.mp3" type="audio/mpeg">
+	     </audio>
+	     <audio id="alltargetsvisited">
+		     <source src="sounds/alltargetsvisited.mp3" type="audio/mpeg">
+	     </audio>
+  	     <audio id="wrongmove">
+		     <source src="sounds/wrongmove.mp3" type="audio/mpeg">
+	     </audio>
+    </div>
+     
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/popper.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+		<script src="js/nanobar.js"></script>
+        <script>
+			var simplebar = new Nanobar();
+		</script>
+        
+    </body>
+</html>
