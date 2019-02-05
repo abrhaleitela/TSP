@@ -9,4 +9,5 @@ And the app is voice interactive where a user can conveniently talk to his/her a
 This reduces so many accident that accurs when a user drives a car while using his/her phone. 
 
 The functionalities of the project are listed in the features.pdf file.
+
 The link to the app: https://cs.uef.fi/~radum/lamad/old/autumn_2018/projects/Final/TSP/1/app/
